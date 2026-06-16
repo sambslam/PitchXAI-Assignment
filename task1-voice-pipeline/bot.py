@@ -6,7 +6,8 @@ from pipecat.audio.vad.silero import SileroVADAnalyzer
 from pipecat.pipeline.pipeline import Pipeline
 from pipecat.pipeline.runner import PipelineRunner
 from pipecat.pipeline.task import PipelineParams, PipelineTask
-from pipecat.processors.aggregators.openai_llm_context import OpenAILLMContext
+from pipecat.processors.aggregators.llm_context import LLMContext
+from pipecat.processors.aggregators.llm_response_universal import LLMContextAggregatorPair
 from pipecat.runner.types import RunnerArguments, SmallWebRTCRunnerArguments
 from pipecat.services.kokoro.tts import KokoroTTSService
 from pipecat.services.ollama.llm import OLLamaLLMService
@@ -46,10 +47,10 @@ async def run_bot(transport):
     )
 
     # Conversation context, seeded with the system prompt.
-    context = OpenAILLMContext(
+    context = LLMContext(
         messages=[{"role": "system", "content": SYSTEM_PROMPT}],
     )
-    context_aggregator = llm.create_context_aggregator(context)
+    context_aggregator = LLMContextAggregatorPair(context)
 
     # The pipeline: audio in -> transcribe -> model -> speak -> audio out.
     pipeline = Pipeline(
