@@ -18,7 +18,7 @@ from pipecat.transports.base_transport import TransportParams
 # System prompt: defines how the calling agent behaves.
 SYSTEM_PROMPT = (
     "You are a friendly phone agent for PitchX, a company that builds AI calling "
-    "agents and automations for sales teams. You are speaking to someone who called"
+    "agents and automations for sales teams. You are speaking to someone who called "
     "in to learn about the product. Keep replies short and conversational, one or two "
     "sentences, since this is a voice call. Be warm, clear, and helpful. If you do not "
     "know a specific detail, say so simply rather than making it up."
@@ -93,7 +93,7 @@ async def bot(runner_args: RunnerArguments):
     transport = None
 
     if isinstance(runner_args, SmallWebRTCRunnerArguments):
-        from pipecat.transports.network.small_webrtc import SmallWebRTCTransport
+        from pipecat.transports.smallwebrtc.transport import SmallWebRTCTransport
 
         transport = SmallWebRTCTransport(
             params=TransportParams(
@@ -103,6 +103,7 @@ async def bot(runner_args: RunnerArguments):
             ),
             webrtc_connection=runner_args.webrtc_connection,
         )
+    
     else:
         logger.error(f"Unsupported runner arguments type: {type(runner_args)}")
         return
